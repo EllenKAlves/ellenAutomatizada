@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Automatizado</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .chat-box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            max-width: 400px;
+            height: 300px;
+            overflow-y: scroll;
+        }
+        .user-msg {
+            margin-bottom: 10px;
+            color: blue;
+        }
+        .bot-msg {
+            margin-bottom: 10px;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <h2>Ellen Automatizada</h2>
+    <div class="chat-box" id="chat-box"></div>
+    <textarea id="user-input" rows="3" cols="50" placeholder="Digite sua mensagem..."></textarea>
+    <button onclick="enviarMensagem()">Enviar</button>
+
+    <script>
+        function adicionarMensagem(mensagem, classe) {
+            const chatBox = document.getElementById('chat-box');
+            const msgElement = document.createElement('div');
+            msgElement.classList.add(classe);
+            msgElement.innerText = mensagem;
+            chatBox.appendChild(msgElement);
+            // Rolando a caixa de chat para o final para mostrar a mensagem mais recente
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // Função para processar a mensagem do usuário e obter a resposta automatizada
+        function processarMensagem(mensagem) {
+            const respostasAutomaticas = {
+                "oi": "Oi! Como posso te ajudar?",
+                "como você tá?": "Eu to bem, pensando em mil projetos",
+                "quem é vc?": "Eu sou uma versão Yohan automatizado.",
+                "tchau": "flww!",
+                // perguntas e repostas que extrai genericamente de uma conversa simples que tive 
+            };
+            let entrada = mensagem.toLowerCase();
+              //caçando essa opção
+            if (respostasAutomaticas[entrada]) {
+                return respostasAutomaticas[entrada];
+            } else {
+                // Resposta padrão se não houver essa opção
+                return "Desculpe, eu não entendi. Poderia articular a pergunta de novo?";
+            }
+        }
+        function enviarMensagem() {
+            const userInput = document.getElementById('user-input');
+            const userMessage = userInput.value.trim();
+
+            if (userMessage !== '') {
+                adicionarMensagem(userMessage, 'user-msg');
+                userInput.value = ''; // Limpar a área de entrada
+                const resposta = processarMensagem(userMessage);
+                adicionarMensagem(resposta, 'bot-msg');
+            }
+        }
+    </script>
+</body>
+</html>
